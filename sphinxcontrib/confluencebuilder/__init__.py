@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    :copyright: Copyright 2016-2020 by the contributors (see AUTHORS file).
-    :license: BSD-2-Clause, see LICENSE for details.
+:copyright: Copyright 2016-2020 Sphinx Confluence Builder Contributors (AUTHORS)
+:license: BSD-2-Clause (LICENSE)
 """
 
 from .builder import ConfluenceBuilder
@@ -11,7 +11,7 @@ from .logger import ConfluenceLogger
 from .nodes import jira
 from .nodes import jira_issue
 from .singlebuilder import SingleConfluenceBuilder
-from .translator import ConfluenceTranslator
+from .translator.storage import ConfluenceStorageFormatTranslator
 from .util import ConfluenceUtil
 from docutils import nodes
 from sphinx.util import docutils
@@ -49,9 +49,10 @@ def setup(app):
     app.require_sphinx('1.8')
     app.add_builder(ConfluenceBuilder)
     app.add_builder(SingleConfluenceBuilder)
-    app.registry.add_translator(ConfluenceBuilder.name, ConfluenceTranslator)
     app.registry.add_translator(
-        SingleConfluenceBuilder.name, ConfluenceTranslator)
+        ConfluenceBuilder.name, ConfluenceStorageFormatTranslator)
+    app.registry.add_translator(
+        SingleConfluenceBuilder.name, ConfluenceStorageFormatTranslator)
 
     # Images defined by data uri schemas can be resolved into generated images
     # after a document's post-transformation stage. After a document's doctree
